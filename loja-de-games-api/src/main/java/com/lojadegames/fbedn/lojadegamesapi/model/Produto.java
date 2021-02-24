@@ -1,13 +1,10 @@
 package com.lojadegames.fbedn.lojadegamesapi.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,8 +12,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria {
+@Table(name = "tb_produto")
+public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +23,16 @@ public class Categoria {
 	@Size(min = 3, max = 100)
 	private String descricao;
 	
+	private long quantidadeEstoque;
+	
+	private double preco;
+	
 	private boolean ativo;
 	
 	@NotNull
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("categoria")
-	private List<Produto> produto;
+	@ManyToOne
+	@JsonIgnoreProperties("produto")
+	private Categoria categoria;
 
 	public long getId() {
 		return id;
@@ -42,17 +43,29 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	public long getQuantidadeEstoque() {
+		return quantidadeEstoque;
+	}
+	public void setQuantidadeEstoque(long quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
+	}
+	public double getPreco() {
+		return preco;
+	}
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
 	public boolean isAtivo() {
 		return ativo;
 	}
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
-	public List<Produto> getProduto() {
-		return produto;
+	public Categoria getCategoria() {
+		return categoria;
 	}
-	public void setProduto(List<Produto> produto) {
-		this.produto = produto;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 	
 }
